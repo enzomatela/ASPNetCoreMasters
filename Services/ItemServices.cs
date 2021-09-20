@@ -1,18 +1,21 @@
-﻿using System;
+﻿using DomainModel;
+using Services.DTO;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Services
 {
     public class ItemServices
     {
-        public IEnumerable<string> GetAll(int userId)
+        public int GetAll(int Id)
         {
-            return Enumerable.Empty<string>();
+            return 0;
         }
 
-
+        public void Save(ItemDTO itemDTO)
+        {
+           Item item = new Item{ Text = itemDTO.Text };
+        }
 
     }
 }

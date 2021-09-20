@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+﻿using Masters.Api.BindingModels;
+using Microsoft.AspNetCore.Mvc;
 
 using Services;
-
+using Services.DTO;
 
 namespace Masters.Api.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
     public class ItemsController : Controller
     {
         public ItemServices itemServices; 
@@ -17,9 +15,19 @@ namespace Masters.Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<string> Get(int Id)
+        public int Get(int Id)
         {
             return itemServices.GetAll(Id);
+        }
+
+        [HttpPost]
+        public void Post([FromBody] ItemCreateBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                itemServices.Save(new ItemDTO { Text = model.Text });
+            }
+            
         }
     }
 }
