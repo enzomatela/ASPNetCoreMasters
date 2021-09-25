@@ -11,10 +11,10 @@ namespace Masters.Api.Controllers
     [Route("[controller]")]
     public class ItemsController : Controller
     {
-        public ItemServices itemServices; 
+        public ItemService itemServices; 
         public ItemsController()
         {
-            itemServices = new ItemServices();
+            itemServices = new ItemService();
         }
 
         [HttpGet("/items")]
@@ -26,14 +26,16 @@ namespace Masters.Api.Controllers
         [HttpGet("/items/{itemId}")]
         public IActionResult Get(int itemId)
         {
-            return Ok(itemServices.GetAllById(itemId));
+            return Ok(itemServices.Get(itemId));
         }
 
         [HttpGet]
         [Route("/items/FilterBy")]
         public IActionResult GetByFilters([FromQuery] Dictionary<string, string> filters)
         {
-            return Ok(itemServices.GetByFilters(filters));
+            ItemByFilterDTO itemFilter = new ItemByFilterDTO();
+            itemFilter.itemFilter = filters;
+            return Ok(itemServices.GetAllByFilter(itemFilter));
         }
 
         [HttpPost("/items")]
@@ -41,7 +43,7 @@ namespace Masters.Api.Controllers
         {
             if (ModelState.IsValid)
             {
-                itemServices.Save(new ItemDTO { Text = model.Text });
+                itemServices.Add(new ItemDTO { ItemId = model.ItemId,Text = model.Text });
             }
 
             return Ok();
@@ -50,14 +52,14 @@ namespace Masters.Api.Controllers
         [HttpPut("/items/{itemId}")]
         public IActionResult Put(int itemId, [FromBody] ItemUpdateBindingModel itemUpdateModel)
         {
-            itemServices.Update(itemId, new ItemDTO { Text = itemUpdateModel.Text });
+            itemServices.Update(new ItemDTO { ItemId = itemId ,Text = itemUpdateModel.Text });
             return Ok();
         }
 
         [HttpDelete("/items/{itemId}")]
         public IActionResult Delete(int itemId)
         {
-            itemServices.Delete();
+            itemServices.Delete(itemId);
             return Ok();
         }
     }

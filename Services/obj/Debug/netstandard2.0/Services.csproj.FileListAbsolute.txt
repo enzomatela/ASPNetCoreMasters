@@ -10,3 +10,5 @@ C:\Users\Enzom\Desktop\NetcoreMasters\ASPNetCoreMasters\Services\obj\Debug\netst
 C:\Users\Enzom\Desktop\NetcoreMasters\ASPNetCoreMasters\Services\obj\Debug\netstandard2.0\Services.csproj.CopyComplete
 C:\Users\Enzom\Desktop\NetcoreMasters\ASPNetCoreMasters\Services\obj\Debug\netstandard2.0\Services.dll
 C:\Users\Enzom\Desktop\NetcoreMasters\ASPNetCoreMasters\Services\obj\Debug\netstandard2.0\Services.pdb
+C:\Users\Enzom\Desktop\NetcoreMasters\ASPNetCoreMasters\Services\bin\Debug\netstandard2.0\Repositories.dll
+C:\Users\Enzom\Desktop\NetcoreMasters\ASPNetCoreMasters\Services\bin\Debug\netstandard2.0\Repositories.pdb
