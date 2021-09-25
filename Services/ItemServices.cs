@@ -7,14 +7,34 @@ namespace Services
 {
     public class ItemServices
     {
-        public int GetAll(int Id)
+        public int GetAll()
+        {
+            return 0;
+        }
+
+        public int GetAllById(int Id)
+        {
+            return 0;
+        }
+
+        public int GetByFilters(Dictionary<string, string> filters)
         {
             return 0;
         }
 
         public void Save(ItemDTO itemDTO)
         {
-           Item item = new Item{ Text = itemDTO.Text };
+            Item item = itemDTO;
+        }
+
+        public void Update(int itemId, ItemDTO itemDTO)
+        {
+
+        }
+
+        public void Delete()
+        {
+            
         }
 
     }
