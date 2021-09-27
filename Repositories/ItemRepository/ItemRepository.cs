@@ -5,8 +5,12 @@ namespace Repositories.ItemRepository
 {
     public class ItemRepository : IItemRepository
     {
-        DataContext context = new DataContext();
+        DataContext context;
 
+        public ItemRepository(DataContext datacontext)
+        {
+            context = datacontext;
+        }
 
         public IQueryable<Item> All()
         { 
@@ -21,8 +25,15 @@ namespace Repositories.ItemRepository
 
         public void Save(Item item)
         {
-            context.Items.Add(item);
-            context.Items = context.Items;
+            if (item != null)
+            {
+                context.Items.Where(e => e.ItemId == item.ItemId).FirstOrDefault().Text = item.Text;
+            } else
+            {
+                context.Items.Add(item);
+                context.Items = context.Items;
+            }
+            
         }
     }
 }

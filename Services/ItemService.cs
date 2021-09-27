@@ -15,9 +15,9 @@ namespace Services
             repository = _itemRepository;
         }
 
-        public void Add(ItemDTO itemDto)
+        public void Add(ItemDTO itemDTO)
         {
-            repository.Save(new Item { ItemId = itemDto.ItemId, Text = itemDto.Text });
+            repository.Save(new Item { ItemId = itemDTO.ItemId, Text = itemDTO.Text });
         }
 
         public void Delete(int id)
@@ -44,12 +44,22 @@ namespace Services
 
         public IEnumerable<ItemDTO> GetAllByFilter(ItemByFilterDTO filters)
         {
-            return Enumerable.Empty<ItemDTO>();
+            List<ItemDTO> itemDTO = new List<ItemDTO>();
+
+            foreach (var item in filters.itemFilter)
+            {
+                int key = int.Parse(item.Key);
+                var filteredItem = repository.All().Where(e => e.ItemId == key && e.Text == item.Value).FirstOrDefault(); ;
+                itemDTO.Add(new ItemDTO { ItemId = filteredItem.ItemId, Text = filteredItem.Text });
+            }
+
+
+            return itemDTO.AsEnumerable<ItemDTO>();
         }
 
         public void Update(ItemDTO itemDTO)
         {
-           
+            repository.Save(new Item { ItemId = itemDTO.ItemId, Text = itemDTO.Text });
         }
     }
 }

@@ -25,8 +25,7 @@ namespace Masters.Api.Controllers
         }
 
         [HttpGet("{itemId}")]
-        public IActionResult Get(int itemId)
-        
+        public IActionResult Get(int itemId)   
         {
             return Ok(itemServices.Get(itemId));
         }
@@ -51,7 +50,7 @@ namespace Masters.Api.Controllers
             return Ok();
         }
 
-        [HttpPut("{itemId}")]
+        [HttpPut("/{itemId}")]
         public IActionResult Put(int itemId, [FromBody] ItemUpdateBindingModel itemUpdateModel)
         {
             itemServices.Update(new ItemDTO { ItemId = itemId ,Text = itemUpdateModel.Text });
