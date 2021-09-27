@@ -5,13 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DomainModel\DomainModel.csproj" />
     <ProjectReference Include="..\Repositories\Repositories.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="DomainModel">
-      <HintPath>..\DomainModel\bin\Debug\netstandard2.0\DomainModel.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

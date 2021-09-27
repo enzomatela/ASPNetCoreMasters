@@ -44,7 +44,7 @@ namespace Masters.Api.Controllers
         {
             if (ModelState.IsValid)
             {
-                itemServices.Add(new ItemDTO { ItemId = model.ItemId,Text = model.Text });
+                itemServices.Add(new ItemDTO { Text = model.Text });
             }
 
             return Ok();
@@ -57,7 +57,7 @@ namespace Masters.Api.Controllers
             return Ok();
         }
 
-        [HttpDelete("{itemId}")]
+        [HttpDelete("/{itemId}")]
         public IActionResult Delete(int itemId)
         {
             itemServices.Delete(itemId);

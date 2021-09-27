@@ -31,7 +31,7 @@ namespace Services
             var repoData = repository.All().Where(e => e.ItemId == itemId).FirstOrDefault();
             if (repoData != null)
             {
-                lineItem.ItemId = repoData.ItemId;
+                lineItem.ItemId = (int)repoData.ItemId;
                 lineItem.Text = repoData.Text;
             }
             return lineItem;
@@ -39,7 +39,7 @@ namespace Services
 
         public IEnumerable<ItemDTO> GetAll()
         {
-            return repository.All().Select(e => new ItemDTO { ItemId = e.ItemId, Text = e.Text }).AsEnumerable();
+            return repository.All().Select(e => new ItemDTO { ItemId = (int)e.ItemId, Text = e.Text }).AsEnumerable();
         }
 
         public IEnumerable<ItemDTO> GetAllByFilter(ItemByFilterDTO filters)
@@ -49,10 +49,9 @@ namespace Services
             foreach (var item in filters.itemFilter)
             {
                 int key = int.Parse(item.Key);
-                var filteredItem = repository.All().Where(e => e.ItemId == key && e.Text == item.Value).FirstOrDefault(); ;
-                itemDTO.Add(new ItemDTO { ItemId = filteredItem.ItemId, Text = filteredItem.Text });
+                var filteredItem = repository.All().Where(e => e.ItemId == key && e.Text == item.Value).FirstOrDefault();
+                itemDTO.Add(new ItemDTO { ItemId = (int)filteredItem.ItemId, Text = filteredItem.Text });
             }
-
 
             return itemDTO.AsEnumerable<ItemDTO>();
         }

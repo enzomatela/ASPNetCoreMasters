@@ -19,19 +19,20 @@ namespace Repositories.ItemRepository
 
         public void Delete(int id)
         {
-            context.Items.RemoveAt(id - 1);
-            context.Items = context.Items;
+            var itemToRemove = context.Items.Single(r => r.ItemId == id);
+            context.Items.Remove(itemToRemove);
         }
 
         public void Save(Item item)
         {
-            if (item != null)
+            if (item.ItemId != null)
             {
                 context.Items.Where(e => e.ItemId == item.ItemId).FirstOrDefault().Text = item.Text;
-            } else
+            }
+            else
             {
+                item.ItemId = context.Items.OrderByDescending(e => e.ItemId).FirstOrDefault().ItemId + 1;
                 context.Items.Add(item);
-                context.Items = context.Items;
             }
             
         }
