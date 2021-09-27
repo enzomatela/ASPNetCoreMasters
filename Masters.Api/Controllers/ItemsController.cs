@@ -17,7 +17,7 @@ namespace Masters.Api.Controllers
             itemServices = new ItemServices();
         }
 
-        [HttpGet("/items")]
+        [HttpGet]
         public IActionResult GetAll()
         {
             return Ok(itemServices.GetAll());
