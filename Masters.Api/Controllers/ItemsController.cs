@@ -26,6 +26,7 @@ namespace Masters.Api.Controllers
 
         [HttpGet("/{itemId}")]
         public IActionResult Get(int itemId)
+        
         {
             return Ok(itemServices.Get(itemId));
         }
