@@ -8,7 +8,12 @@ namespace Services
 {
     public class ItemService : IItemService
     {
-        IItemRepository repository = new ItemRepository();
+        public readonly IItemRepository repository;
+
+        public ItemService(IItemRepository _itemRepository)
+        {
+            repository = _itemRepository;
+        }
 
         public void Add(ItemDTO itemDto)
         {

@@ -11,13 +11,14 @@ namespace Masters.Api.Controllers
     [Route("[controller]")]
     public class ItemsController : Controller
     {
-        public ItemService itemServices; 
-        public ItemsController()
+        private readonly IItemService itemServices; 
+
+        public ItemsController(IItemService _itemService)
         {
-            itemServices = new ItemService();
+            itemServices = _itemService;
         }
 
-        [HttpGet("/items")]
+        [HttpGet]
         public IActionResult GetAll()
         {
             return Ok(itemServices.GetAll());
