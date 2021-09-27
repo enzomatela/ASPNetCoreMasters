@@ -23,20 +23,20 @@ namespace Masters.Api.Controllers
             return Ok(itemServices.GetAll());
         }
 
-        [HttpGet("/{itemId}")]
+        [HttpGet("/items/{itemId}")]
         public IActionResult Get(int itemId)
         {
             return Ok(itemServices.GetAllById(itemId));
         }
 
         [HttpGet]
-        [Route("/FilterBy")]
+        [Route("/items/FilterBy")]
         public IActionResult GetByFilters([FromQuery] Dictionary<string, string> filters)
         {
             return Ok(itemServices.GetByFilters(filters));
         }
 
-        [HttpPost]
+        [HttpPost("/items")]
         public IActionResult Post([FromBody] ItemCreateBindingModel model)
         {
             if (ModelState.IsValid)
@@ -47,14 +47,14 @@ namespace Masters.Api.Controllers
             return Ok();
         }
 
-        [HttpPut("/{itemId}")]
+        [HttpPut("/items/{itemId}")]
         public IActionResult Put(int itemId, [FromBody] ItemUpdateBindingModel itemUpdateModel)
         {
             itemServices.Update(itemId, new ItemDTO { Text = itemUpdateModel.Text });
             return Ok();
         }
 
-        [HttpDelete("/{itemId}")]
+        [HttpDelete("/items/{itemId}")]
         public IActionResult Delete(int itemId)
         {
             itemServices.Delete();
