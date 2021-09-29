@@ -44,19 +44,15 @@ namespace Services
 
         public IEnumerable<ItemDTO> GetAllByFilter(ItemByFilterDTO filters)
         {
-            List<ItemDTO> itemDTO = new List<ItemDTO>();
 
-            foreach (var item in filters.itemFilter)
-            {
-                int key = 0;
-                int.TryParse(item.Key, out key);
-                var filteredItem = repository.All().Where(e => e.ItemId == key || e.Text == item.Value).FirstOrDefault();
-                if (filteredItem != null) {
-                    itemDTO.Add(new ItemDTO { ItemId = filteredItem.ItemId, Text = filteredItem.Text });
-                }
-            }
+            string sText = filters.itemFilter.TryGetValue("text", out sText) ? sText : string.Empty;
+            string sId = filters.itemFilter.TryGetValue("id", out sId) ? sId : string.Empty;
 
-            return itemDTO.OrderBy(i => i.ItemId).AsEnumerable<ItemDTO>();
+            int key = 0;
+            int.TryParse(sId, out key);
+            
+            return repository.All().Where(e => e.ItemId == key || e.Text == sText).
+                             Select(e => new ItemDTO { ItemId = e.ItemId, Text = e.Text });
         }
 
         public void Update(ItemDTO itemDTO)
