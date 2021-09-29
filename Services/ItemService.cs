@@ -49,11 +49,13 @@ namespace Services
             foreach (var item in filters.itemFilter)
             {
                 int key = int.Parse(item.Key);
-                var filteredItem = repository.All().Where(e => e.ItemId == key && e.Text == item.Value).FirstOrDefault();
-                itemDTO.Add(new ItemDTO { ItemId = (int)filteredItem.ItemId, Text = filteredItem.Text });
+                var filteredItem = repository.All().Where(e => e.ItemId == key || e.Text == item.Value).FirstOrDefault();
+                if (filteredItem != null) {
+                    itemDTO.Add(new ItemDTO { ItemId = filteredItem.ItemId, Text = filteredItem.Text });
+                }
             }
 
-            return itemDTO.AsEnumerable<ItemDTO>();
+            return itemDTO.OrderBy(i => i.ItemId).AsEnumerable<ItemDTO>();
         }
 
         public void Update(ItemDTO itemDTO)
