@@ -48,7 +48,8 @@ namespace Services
 
             foreach (var item in filters.itemFilter)
             {
-                int key = int.Parse(item.Key);
+                int key = 0;
+                int.TryParse(item.Key, out key);
                 var filteredItem = repository.All().Where(e => e.ItemId == key || e.Text == item.Value).FirstOrDefault();
                 if (filteredItem != null) {
                     itemDTO.Add(new ItemDTO { ItemId = filteredItem.ItemId, Text = filteredItem.Text });
