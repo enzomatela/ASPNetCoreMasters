@@ -1,3 +1,4 @@
+using Masters.Api.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -34,6 +35,7 @@ namespace Masters.Api
             }).AddXmlSerializerFormatters();
             services.AddScoped<IItemRepository, ItemRepository>();
             services.AddScoped<IItemService, ItemService>();
+            services.Configure<Authentication>(Configuration.GetSection("Authentication"));
             services.AddSingleton<DataContext>();
         }
 
