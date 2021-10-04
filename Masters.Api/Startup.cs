@@ -6,6 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Repositories;
+using Repositories.ItemRepository;
+using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +32,9 @@ namespace Masters.Api
             {
                 o.RespectBrowserAcceptHeader = true;
             }).AddXmlSerializerFormatters();
+            services.AddScoped<IItemRepository, ItemRepository>();
+            services.AddScoped<IItemService, ItemService>();
+            services.AddSingleton<DataContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

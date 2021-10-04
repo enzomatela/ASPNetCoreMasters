@@ -11,10 +11,11 @@ namespace Masters.Api.Controllers
     [Route("[controller]")]
     public class ItemsController : Controller
     {
-        public ItemServices itemServices; 
-        public ItemsController()
+        private readonly IItemService itemServices; 
+
+        public ItemsController(IItemService _itemService)
         {
-            itemServices = new ItemServices();
+            itemServices = _itemService;
         }
 
         [HttpGet]
@@ -24,16 +25,18 @@ namespace Masters.Api.Controllers
         }
 
         [HttpGet("{itemId}")]
-        public IActionResult Get(int itemId)
+        public IActionResult Get(int itemId)   
         {
-            return Ok(itemServices.GetAllById(itemId));
+            return Ok(itemServices.Get(itemId));
         }
 
         [HttpGet]
         [Route("FilterBy")]
         public IActionResult GetByFilters([FromQuery] Dictionary<string, string> filters)
         {
-            return Ok(itemServices.GetByFilters(filters));
+            ItemByFilterDTO itemFilter = new ItemByFilterDTO();
+            itemFilter.itemFilter = filters;
+            return Ok(itemServices.GetAllByFilter(itemFilter));
         }
 
         [HttpPost]
@@ -41,7 +44,7 @@ namespace Masters.Api.Controllers
         {
             if (ModelState.IsValid)
             {
-                itemServices.Save(new ItemDTO { Text = model.Text });
+                itemServices.Add(new ItemDTO { Text = model.Text });
             }
 
             return Ok();
@@ -50,14 +53,14 @@ namespace Masters.Api.Controllers
         [HttpPut("{itemId}")]
         public IActionResult Put(int itemId, [FromBody] ItemUpdateBindingModel itemUpdateModel)
         {
-            itemServices.Update(itemId, new ItemDTO { Text = itemUpdateModel.Text });
+            itemServices.Update(new ItemDTO { ItemId = itemId ,Text = itemUpdateModel.Text });
             return Ok();
         }
 
         [HttpDelete("{itemId}")]
         public IActionResult Delete(int itemId)
         {
-            itemServices.Delete();
+            itemServices.Delete(itemId);
             return Ok();
         }
     }
