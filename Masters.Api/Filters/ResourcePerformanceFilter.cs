@@ -9,15 +9,16 @@ namespace Masters.Api.Filters
 {
     public class ResourcePerformanceFilter : IResourceFilter
     {
-        private readonly Stopwatch stopwatch = new Stopwatch();
-
         public void OnResourceExecuting(ResourceExecutingContext context)
         {
+            context.HttpContext.Items["Stopwatch"] = new Stopwatch(); ; // store​
+            Stopwatch stopwatch = (Stopwatch)context.HttpContext.Items["Stopwatch"]; // retrieve
             stopwatch.Start();
         }
 
         public void OnResourceExecuted(ResourceExecutedContext context)
         {
+            Stopwatch stopwatch = (Stopwatch)context.HttpContext.Items["Stopwatch"]; // retrieve
             stopwatch.Stop();
         }
     }
