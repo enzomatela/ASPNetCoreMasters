@@ -3,7 +3,9 @@ using Masters.Api.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -38,7 +40,14 @@ namespace Masters.Api
             services.AddScoped<IItemRepository, ItemRepository>();
             services.AddScoped<IItemService, ItemService>();
             services.Configure<Authentication>(Configuration.GetSection("Authentication"));
-            services.AddSingleton<DataContext>();
+            services.AddDbContext<DataDBContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("Default"));
+            });
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+              .AddEntityFrameworkStores<DataDBContext>()
+              .AddDefaultTokenProviders();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
