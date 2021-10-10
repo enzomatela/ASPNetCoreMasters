@@ -28,7 +28,7 @@ namespace Masters.Api.Controllers
             userManager = _userManager;
         }
 
-        [HttpPost("Register")]
+        [HttpPost("[action]")]
         public async Task<IActionResult> Register(RegisterBindingModel model)
         {
             var user = new IdentityUser
@@ -54,7 +54,7 @@ namespace Masters.Api.Controllers
             }
         }
 
-        [HttpPost("Confirm")]
+        [HttpPost("[action]")]
         public async Task<IActionResult> Confirm(ConfirmBindingModel confirm)
         {
             var user = await userManager.FindByEmailAsync(confirm.Email);
@@ -74,7 +74,7 @@ namespace Masters.Api.Controllers
             }
         }
 
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public async Task<IActionResult> LoginAsync(LoginBindingModel login)
         {
             IActionResult actionResult;
