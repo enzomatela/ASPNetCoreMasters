@@ -1,3 +1,4 @@
+using Masters.Api.Filters;
 using Masters.Api.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,6 +33,7 @@ namespace Masters.Api
             services.AddControllers(o =>
             {
                 o.RespectBrowserAcceptHeader = true;
+                o.Filters.Add(new ResourcePerformanceFilter());
             }).AddXmlSerializerFormatters();
             services.AddScoped<IItemRepository, ItemRepository>();
             services.AddScoped<IItemService, ItemService>();
