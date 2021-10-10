@@ -59,5 +59,10 @@ namespace Services
         {
             repository.Save(new Item { ItemId = itemDTO.ItemId, Text = itemDTO.Text });
         }
+
+        public bool ItemExist(int itemId)
+        {
+            return repository.All().Any(i => i.ItemId == itemId);
+        }
     }
 }

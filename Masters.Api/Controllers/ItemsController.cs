@@ -1,4 +1,5 @@
 ﻿using Masters.Api.BindingModels;
+using Masters.Api.Filters;
 using Microsoft.AspNetCore.Mvc;
 
 using Services;
@@ -9,6 +10,7 @@ namespace Masters.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [ItemExist]
     public class ItemsController : Controller
     {
         private readonly IItemService itemServices; 
