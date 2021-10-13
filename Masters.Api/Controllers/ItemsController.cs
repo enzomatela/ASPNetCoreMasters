@@ -1,5 +1,6 @@
 ﻿using Masters.Api.BindingModels;
 using Masters.Api.Filters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Services;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 
 namespace Masters.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     [ItemExist]

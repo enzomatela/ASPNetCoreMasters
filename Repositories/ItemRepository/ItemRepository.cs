@@ -5,11 +5,16 @@ namespace Repositories.ItemRepository
 {
     public class ItemRepository : IItemRepository
     {
-        DataContext context;
+        private readonly DataDBContext context;
 
-        public ItemRepository(DataContext datacontext)
+        //public ItemRepository(DataContext datacontext)
+        //{
+        //    context = datacontext;
+        //}
+
+        public ItemRepository(DataDBContext dataContext)
         {
-            context = datacontext;
+            context = dataContext;
         }
 
         public IQueryable<Item> All()
