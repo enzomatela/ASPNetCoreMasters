@@ -48,7 +48,7 @@ namespace Services
 
         public IEnumerable<ItemDTO> GetAll()
         {
-            return repository.All().Select(e => new ItemDTO { ItemId = (int)e.ItemId, Text = e.Text }).AsEnumerable();
+            return repository.All().Select(e => new ItemDTO { ItemId = (int)e.ItemId, Text = e.Text, CreatedBy = e.CreatedBy, DateCreated = e.DateCreated }).AsEnumerable();
         }
 
         public IEnumerable<ItemDTO> GetAllByFilter(ItemByFilterDTO filters)
