@@ -13,6 +13,8 @@ using Repositories;
 using Repositories.ItemRepository;
 using Services;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
+using ASPNetCoreMastersTodoList.API.Authorization;
 
 namespace Masters.Api
 {
@@ -63,6 +65,13 @@ namespace Masters.Api
                       IssuerSigningKey = securityKey
                   };
               });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("CanEditItems", policy => policy.Requirements.Add(new ItemOwnerRequirement()));
+            });
+
+            services.AddScoped<IAuthorizationHandler, ItemOwnerHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

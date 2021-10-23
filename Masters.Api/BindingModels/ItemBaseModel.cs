@@ -13,5 +13,7 @@ namespace Masters.Api.BindingModels
         [Required]
         [StringLength(128, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 6)]
         public string Text { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime DateCreated { get; set; }
     }
 }
