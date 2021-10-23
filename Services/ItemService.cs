@@ -1,6 +1,8 @@
 ﻿using DomainModel;
+using Microsoft.AspNetCore.Identity;
 using Repositories.ItemRepository;
 using Services.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,9 +17,14 @@ namespace Services
             repository = _itemRepository;
         }
 
-        public void Add(ItemDTO itemDTO)
+        public void Add(ItemDTO itemDTO, IdentityUser user)
         {
-            repository.Save(new Item { ItemId = itemDTO.ItemId, Text = itemDTO.Text });
+            repository.Save(new Item { 
+                ItemId = itemDTO.ItemId, 
+                Text = itemDTO.Text,
+                CreatedBy = user.Id,
+                DateCreated = DateTime.UtcNow
+            });
         }
 
         public void Delete(int id)
@@ -33,6 +40,8 @@ namespace Services
             {
                 lineItem.ItemId = (int)repoData.ItemId;
                 lineItem.Text = repoData.Text;
+                lineItem.CreatedBy = repoData.CreatedBy;
+                lineItem.DateCreated = repoData.DateCreated;
             }
             return lineItem;
         }

@@ -32,12 +32,18 @@ namespace Repositories.ItemRepository
         {
             if (item.ItemId != null)
             {
-                context.Items.Where(e => e.ItemId == item.ItemId).FirstOrDefault().Text = item.Text;
+                var selectedItem = this.context.Items.Where(i => i.ItemId == item.ItemId).FirstOrDefault();
+                if (selectedItem != null)
+                {
+                    selectedItem.Text = item.Text;
+                    this.context.SaveChanges();
+                }
+               
             }
             else
             {
-                item.ItemId = context.Items.OrderByDescending(e => e.ItemId).FirstOrDefault().ItemId + 1;
-                context.Items.Add(item);
+                this.context.Items.Add(item);
+                this.context.SaveChanges();
             }
             
         }
