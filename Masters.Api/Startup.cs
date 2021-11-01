@@ -15,6 +15,7 @@ using Services;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using ASPNetCoreMastersTodoList.API.Authorization;
+using Autofac;
 
 namespace Masters.Api
 {
@@ -35,8 +36,8 @@ namespace Masters.Api
                 o.RespectBrowserAcceptHeader = true;
                 o.Filters.Add(new ResourcePerformanceFilter());
             }).AddXmlSerializerFormatters();
-            services.AddScoped<IItemRepository, ItemRepository>();
-            services.AddScoped<IItemService, ItemService>();
+            //services.AddScoped<IItemRepository, ItemRepository>();
+            //services.AddScoped<IItemService, ItemService>();
             services.Configure<Authentication>(Configuration.GetSection("Authentication"));
             services.AddDbContext<DataDBContext>(options =>
             {
@@ -72,6 +73,14 @@ namespace Masters.Api
             });
 
             services.AddScoped<IAuthorizationHandler, ItemOwnerHandler>();
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterType<ItemRepository>().As<IItemRepository>()
+                .InstancePerLifetimeScope();
+            builder.RegisterType<ItemService>().As<IItemService>()
+                .InstancePerLifetimeScope();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
