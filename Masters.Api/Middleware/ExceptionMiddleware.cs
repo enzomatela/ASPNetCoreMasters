@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,12 +38,14 @@ namespace Masters.Api.Middleware
         private async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            await context.Response.WriteAsync(new 
-                {
-                    StatusCode = context.Response.StatusCode,
-                    Message = "Internal Server Error from the custom middleware." //  update this
-                }.ToString());
+            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError; // update this
+            await context.Response.WriteAsync(
+                JsonConvert.SerializeObject(
+                    new
+                    {
+                        StatusCode = context.Response.StatusCode,
+                        Message = $"Internal Server Error from the custom middleware: {exception.Message}"
+                    }.ToString()));
         }
     }
 
