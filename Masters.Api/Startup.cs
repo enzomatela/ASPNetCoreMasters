@@ -19,6 +19,7 @@ using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using Masters.Api.Middleware;
 using Microsoft.AspNetCore.Http;
+using Autofac;
 
 namespace Masters.Api
 {
@@ -53,8 +54,8 @@ namespace Masters.Api
                 o.RespectBrowserAcceptHeader = true;
                 o.Filters.Add(new ResourcePerformanceFilter());
             }).AddXmlSerializerFormatters();
-            services.AddScoped<IItemRepository, ItemRepository>();
-            services.AddScoped<IItemService, ItemService>();
+            //services.AddScoped<IItemRepository, ItemRepository>();
+            //services.AddScoped<IItemService, ItemService>();
             services.Configure<Authentication>(Configuration.GetSection("Authentication"));
             services.AddDbContext<DataDBContext>(options =>
             {
@@ -100,6 +101,14 @@ namespace Masters.Api
                     Description = "Final Project of Group 1 on .Net Core Masters"
                 });
             });
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterType<ItemRepository>().As<IItemRepository>()
+                .InstancePerLifetimeScope();
+            builder.RegisterType<ItemService>().As<IItemService>()
+                .InstancePerLifetimeScope();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
