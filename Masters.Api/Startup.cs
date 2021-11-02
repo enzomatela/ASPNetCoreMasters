@@ -15,11 +15,14 @@ using Services;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using ASPNetCoreMastersTodoList.API.Authorization;
+using Microsoft.Net.Http.Headers;
 
 namespace Masters.Api
 {
     public class Startup
     {
+        private readonly string _corsGetOnlyPolicy = "CorsGetOnlyPolicy";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -30,6 +33,18 @@ namespace Masters.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: _corsGetOnlyPolicy,
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin() //.WithOrigins("https://*",..  // specify sites here
+                            .WithHeaders(HeaderNames.ContentType, HeaderNames.Accept)
+                            .WithMethods("GET");
+                    });
+            });
+
             services.AddControllers(o =>
             {
                 o.RespectBrowserAcceptHeader = true;
@@ -90,6 +105,9 @@ namespace Masters.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+
+            app.UseCors();
 
             app.UseAuthentication();
 
