@@ -16,6 +16,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using ASPNetCoreMastersTodoList.API.Authorization;
 using Microsoft.Net.Http.Headers;
+using Microsoft.OpenApi.Models;
 
 namespace Masters.Api
 {
@@ -87,6 +88,16 @@ namespace Masters.Api
             });
 
             services.AddScoped<IAuthorizationHandler, ItemOwnerHandler>();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Masters API",
+                    Description = "Final Project of Group 1 on .Net Core Masters"
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -116,6 +127,12 @@ namespace Masters.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(config =>
+            {
+                config.SwaggerEndpoint("/swagger/v1/swagger.json", "Masters API v1");
             });
         }
     }
