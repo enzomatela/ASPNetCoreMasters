@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,15 @@ namespace Masters.Api.Middleware
                     context.Request?.Path.Value,
                     context.Response?.StatusCode);
             }
+        }
+    }
+
+    // Extension method used to add the middleware to the HTTP request pipeline.
+    public static class RequestLoggingMiddlewareExtensions
+    {
+        public static IApplicationBuilder UseExceptionMiddleware(this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<RequestLoggingMiddleware>();
         }
     }
 }

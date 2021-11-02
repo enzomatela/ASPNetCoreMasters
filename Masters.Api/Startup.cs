@@ -126,7 +126,8 @@ namespace Masters.Api
 
             app.UseAuthorization();
 
-            app.UseMiddleware<RequestLoggingMiddleware>();
+            app.UseMiddleware<RequestLoggingMiddleware>();  //custom
+            app.ConfigureCustomExceptionMiddleware();   //custom
 
             app.UseEndpoints(endpoints =>
             {
