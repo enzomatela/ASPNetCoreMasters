@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Authorization;
 using ASPNetCoreMastersTodoList.API.Authorization;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
+using Masters.Api.Middleware;
+using Microsoft.AspNetCore.Http;
 
 namespace Masters.Api
 {
@@ -123,6 +125,8 @@ namespace Masters.Api
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<RequestLoggingMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
