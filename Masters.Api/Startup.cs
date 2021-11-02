@@ -94,7 +94,7 @@ namespace Masters.Api
         {
             if (env.IsDevelopment())
             {
-                
+
                 app.UseDeveloperExceptionPage();
             }
             else

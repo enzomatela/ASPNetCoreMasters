@@ -43,9 +43,9 @@ namespace Masters.Api.Controllers
         }
 
         [HttpGet("{itemId}")]
-        public IActionResult Get(int itemId)   
+        public IActionResult Get(int itemId)
         {
-            logger.LogInformation("[Get] - {RequestDatetime} - {Parameter}", DateTime.Now,itemId);
+            logger.LogInformation("[Get] - {RequestDatetime} - {Parameter}", DateTime.Now, itemId);
             return Ok(itemServices.Get(itemId));
         }
 
@@ -88,7 +88,7 @@ namespace Masters.Api.Controllers
                 return new ForbidResult();
             }
 
-            itemServices.Update(new ItemDTO { ItemId = itemId ,Text = itemUpdateModel.Text });
+            itemServices.Update(new ItemDTO { ItemId = itemId, Text = itemUpdateModel.Text });
             return Ok();
         }
 
