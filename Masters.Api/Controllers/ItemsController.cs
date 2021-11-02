@@ -11,9 +11,11 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Text.Json;
+using Microsoft.AspNetCore.Cors;
 
 namespace Masters.Api.Controllers
 {
+    [EnableCors("CorsGetOnlyPolicy")]
     [Authorize]
     [ApiController]
     [Route("[controller]")]
@@ -41,9 +43,9 @@ namespace Masters.Api.Controllers
         }
 
         [HttpGet("{itemId}")]
-        public IActionResult Get(int itemId)   
+        public IActionResult Get(int itemId)
         {
-            logger.LogInformation("[Get] - {RequestDatetime} - {Parameter}", DateTime.Now,itemId);
+            logger.LogInformation("[Get] - {RequestDatetime} - {Parameter}", DateTime.Now, itemId);
             return Ok(itemServices.Get(itemId));
         }
 
@@ -58,6 +60,7 @@ namespace Masters.Api.Controllers
         }
 
         [HttpPost]
+        [DisableCors]
         public async Task<IActionResult> Post([FromBody] ItemCreateBindingModel model)
         {
             logger.LogInformation("[Add] - {RequestDatetime} - {Parameter}", DateTime.Now, JsonSerializer.Serialize(model));
@@ -72,6 +75,7 @@ namespace Masters.Api.Controllers
         }
 
         [HttpPut("{itemId}")]
+        [DisableCors]
         public async Task<IActionResult> Put(int itemId, [FromBody] ItemUpdateBindingModel itemUpdateModel)
         {
             logger.LogInformation("[Update] - {RequestDatetime} - {Parameter}", DateTime.Now, JsonSerializer.Serialize(itemUpdateModel));
@@ -84,11 +88,12 @@ namespace Masters.Api.Controllers
                 return new ForbidResult();
             }
 
-            itemServices.Update(new ItemDTO { ItemId = itemId ,Text = itemUpdateModel.Text });
+            itemServices.Update(new ItemDTO { ItemId = itemId, Text = itemUpdateModel.Text });
             return Ok();
         }
 
         [HttpDelete("{itemId}")]
+        [DisableCors]
         public IActionResult Delete(int itemId)
         {
             logger.LogInformation("[Delete] - {RequestDatetime} - {Parameter}", DateTime.Now, itemId);

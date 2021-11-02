@@ -15,12 +15,18 @@ using Services;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using ASPNetCoreMastersTodoList.API.Authorization;
+using Microsoft.Net.Http.Headers;
+using Microsoft.OpenApi.Models;
+using Masters.Api.Middleware;
+using Microsoft.AspNetCore.Http;
 using Autofac;
 
 namespace Masters.Api
 {
     public class Startup
     {
+        private readonly string _corsGetOnlyPolicy = "CorsGetOnlyPolicy";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -31,6 +37,18 @@ namespace Masters.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: _corsGetOnlyPolicy,
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin() //.WithOrigins("https://*",..  // specify sites here
+                            .WithHeaders(HeaderNames.ContentType, HeaderNames.Accept)
+                            .WithMethods("GET");
+                    });
+            });
+
             services.AddControllers(o =>
             {
                 o.RespectBrowserAcceptHeader = true;
@@ -73,6 +91,16 @@ namespace Masters.Api
             });
 
             services.AddScoped<IAuthorizationHandler, ItemOwnerHandler>();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Masters API",
+                    Description = "Final Project of Group 1 on .Net Core Masters"
+                });
+            });
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -88,7 +116,7 @@ namespace Masters.Api
         {
             if (env.IsDevelopment())
             {
-                
+
                 app.UseDeveloperExceptionPage();
             }
             else
@@ -100,13 +128,25 @@ namespace Masters.Api
 
             app.UseRouting();
 
+
+            app.UseCors();
+
             app.UseAuthentication();
 
             app.UseAuthorization();
 
+            app.UseMiddleware<RequestLoggingMiddleware>();  //custom
+            app.ConfigureCustomExceptionMiddleware();   //custom
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(config =>
+            {
+                config.SwaggerEndpoint("/swagger/v1/swagger.json", "Masters API v1");
             });
         }
     }
